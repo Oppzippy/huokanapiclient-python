@@ -3,29 +3,27 @@ from typing import Any, Dict, Optional, Union
 import httpx
 
 from ...client import Client
-from ...models.deposit_collection import DepositCollection
+from ...models.backed_deposit import BackedDeposit
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     organization_id: str,
     guild_id: str,
+    deposit_id: str,
     *,
     client: Client,
-    after: Union[Unset, None, str] = UNSET,
-    limit: Union[Unset, None, int] = 50,
+    offset: Union[Unset, None, int] = UNSET,
 ) -> Dict[str, Any]:
-    url = "{}/organizations/{organizationId}/guilds/{guildId}/deposits".format(
-        client.base_url, organizationId=organization_id, guildId=guild_id
+    url = "{}/organizations/{organizationId}/guilds/{guildId}/deposits/{depositId}".format(
+        client.base_url, organizationId=organization_id, guildId=guild_id, depositId=deposit_id
     )
 
     headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
     params: Dict[str, Any] = {}
-    params["after"] = after
-
-    params["limit"] = limit
+    params["offset"] = offset
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -39,15 +37,15 @@ def _get_kwargs(
     }
 
 
-def _parse_response(*, response: httpx.Response) -> Optional[DepositCollection]:
+def _parse_response(*, response: httpx.Response) -> Optional[BackedDeposit]:
     if response.status_code == 200:
-        response_200 = DepositCollection.from_dict(response.json())
+        response_200 = BackedDeposit.from_dict(response.json())
 
         return response_200
     return None
 
 
-def _build_response(*, response: httpx.Response) -> Response[DepositCollection]:
+def _build_response(*, response: httpx.Response) -> Response[BackedDeposit]:
     return Response(
         status_code=response.status_code,
         content=response.content,
@@ -59,28 +57,28 @@ def _build_response(*, response: httpx.Response) -> Response[DepositCollection]:
 def sync_detailed(
     organization_id: str,
     guild_id: str,
+    deposit_id: str,
     *,
     client: Client,
-    after: Union[Unset, None, str] = UNSET,
-    limit: Union[Unset, None, int] = 50,
-) -> Response[DepositCollection]:
+    offset: Union[Unset, None, int] = UNSET,
+) -> Response[BackedDeposit]:
     """
     Args:
         organization_id (str):
         guild_id (str):
-        after (Union[Unset, None, str]):
-        limit (Union[Unset, None, int]):  Default: 50.
+        deposit_id (str):
+        offset (Union[Unset, None, int]):
 
     Returns:
-        Response[DepositCollection]
+        Response[BackedDeposit]
     """
 
     kwargs = _get_kwargs(
         organization_id=organization_id,
         guild_id=guild_id,
+        deposit_id=deposit_id,
         client=client,
-        after=after,
-        limit=limit,
+        offset=offset,
     )
 
     response = httpx.request(
@@ -94,56 +92,56 @@ def sync_detailed(
 def sync(
     organization_id: str,
     guild_id: str,
+    deposit_id: str,
     *,
     client: Client,
-    after: Union[Unset, None, str] = UNSET,
-    limit: Union[Unset, None, int] = 50,
-) -> Optional[DepositCollection]:
+    offset: Union[Unset, None, int] = UNSET,
+) -> Optional[BackedDeposit]:
     """
     Args:
         organization_id (str):
         guild_id (str):
-        after (Union[Unset, None, str]):
-        limit (Union[Unset, None, int]):  Default: 50.
+        deposit_id (str):
+        offset (Union[Unset, None, int]):
 
     Returns:
-        Response[DepositCollection]
+        Response[BackedDeposit]
     """
 
     return sync_detailed(
         organization_id=organization_id,
         guild_id=guild_id,
+        deposit_id=deposit_id,
         client=client,
-        after=after,
-        limit=limit,
+        offset=offset,
     ).parsed
 
 
 async def asyncio_detailed(
     organization_id: str,
     guild_id: str,
+    deposit_id: str,
     *,
     client: Client,
-    after: Union[Unset, None, str] = UNSET,
-    limit: Union[Unset, None, int] = 50,
-) -> Response[DepositCollection]:
+    offset: Union[Unset, None, int] = UNSET,
+) -> Response[BackedDeposit]:
     """
     Args:
         organization_id (str):
         guild_id (str):
-        after (Union[Unset, None, str]):
-        limit (Union[Unset, None, int]):  Default: 50.
+        deposit_id (str):
+        offset (Union[Unset, None, int]):
 
     Returns:
-        Response[DepositCollection]
+        Response[BackedDeposit]
     """
 
     kwargs = _get_kwargs(
         organization_id=organization_id,
         guild_id=guild_id,
+        deposit_id=deposit_id,
         client=client,
-        after=after,
-        limit=limit,
+        offset=offset,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -155,28 +153,28 @@ async def asyncio_detailed(
 async def asyncio(
     organization_id: str,
     guild_id: str,
+    deposit_id: str,
     *,
     client: Client,
-    after: Union[Unset, None, str] = UNSET,
-    limit: Union[Unset, None, int] = 50,
-) -> Optional[DepositCollection]:
+    offset: Union[Unset, None, int] = UNSET,
+) -> Optional[BackedDeposit]:
     """
     Args:
         organization_id (str):
         guild_id (str):
-        after (Union[Unset, None, str]):
-        limit (Union[Unset, None, int]):  Default: 50.
+        deposit_id (str):
+        offset (Union[Unset, None, int]):
 
     Returns:
-        Response[DepositCollection]
+        Response[BackedDeposit]
     """
 
     return (
         await asyncio_detailed(
             organization_id=organization_id,
             guild_id=guild_id,
+            deposit_id=deposit_id,
             client=client,
-            after=after,
-            limit=limit,
+            offset=offset,
         )
     ).parsed

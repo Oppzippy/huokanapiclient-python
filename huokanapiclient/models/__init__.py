@@ -1,6 +1,7 @@
 """ Contains all the data models used in inputs/outputs """
 
 from .authorization import Authorization
+from .backed_deposit import BackedDeposit
 from .deposit import Deposit
 from .deposit_collection import DepositCollection
 from .deposit_log import DepositLog
