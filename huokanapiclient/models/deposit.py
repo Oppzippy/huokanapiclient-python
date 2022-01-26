@@ -1,6 +1,8 @@
+import datetime
 from typing import Any, Dict, Type, TypeVar
 
 import attr
+from dateutil.parser import isoparse
 
 T = TypeVar("T", bound="Deposit")
 
@@ -14,6 +16,7 @@ class Deposit:
         character_name (str):
         character_realm (str):
         deposit_in_copper (int):
+        approximate_deposit_timestamp (datetime.datetime):
     """
 
     id: str
@@ -21,6 +24,7 @@ class Deposit:
     character_name: str
     character_realm: str
     deposit_in_copper: int
+    approximate_deposit_timestamp: datetime.datetime
 
     def to_dict(self) -> Dict[str, Any]:
         id = self.id
@@ -28,6 +32,7 @@ class Deposit:
         character_name = self.character_name
         character_realm = self.character_realm
         deposit_in_copper = self.deposit_in_copper
+        approximate_deposit_timestamp = self.approximate_deposit_timestamp.isoformat()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
@@ -37,6 +42,7 @@ class Deposit:
                 "characterName": character_name,
                 "characterRealm": character_realm,
                 "depositInCopper": deposit_in_copper,
+                "approximateDepositTimestamp": approximate_deposit_timestamp,
             }
         )
 
@@ -55,12 +61,15 @@ class Deposit:
 
         deposit_in_copper = d.pop("depositInCopper")
 
+        approximate_deposit_timestamp = isoparse(d.pop("approximateDepositTimestamp"))
+
         deposit = cls(
             id=id,
             endorsements=endorsements,
             character_name=character_name,
             character_realm=character_realm,
             deposit_in_copper=deposit_in_copper,
+            approximate_deposit_timestamp=approximate_deposit_timestamp,
         )
 
         return deposit

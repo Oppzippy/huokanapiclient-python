@@ -1,6 +1,8 @@
+import datetime
 from typing import Any, Dict, Type, TypeVar, Union
 
 import attr
+from dateutil.parser import isoparse
 
 from ..types import UNSET, Unset
 
@@ -16,6 +18,7 @@ class BackedDeposit:
         character_name (Union[Unset, None, str]):
         character_realm (Union[Unset, None, str]):
         deposit_in_copper (Union[Unset, int]):
+        approximate_deposit_timestamp (Union[Unset, datetime.datetime]):
     """
 
     id: Union[Unset, str] = UNSET
@@ -23,6 +26,7 @@ class BackedDeposit:
     character_name: Union[Unset, None, str] = UNSET
     character_realm: Union[Unset, None, str] = UNSET
     deposit_in_copper: Union[Unset, int] = UNSET
+    approximate_deposit_timestamp: Union[Unset, datetime.datetime] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         id = self.id
@@ -30,6 +34,9 @@ class BackedDeposit:
         character_name = self.character_name
         character_realm = self.character_realm
         deposit_in_copper = self.deposit_in_copper
+        approximate_deposit_timestamp: Union[Unset, str] = UNSET
+        if not isinstance(self.approximate_deposit_timestamp, Unset):
+            approximate_deposit_timestamp = self.approximate_deposit_timestamp.isoformat()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update({})
@@ -43,6 +50,8 @@ class BackedDeposit:
             field_dict["characterRealm"] = character_realm
         if deposit_in_copper is not UNSET:
             field_dict["depositInCopper"] = deposit_in_copper
+        if approximate_deposit_timestamp is not UNSET:
+            field_dict["approximateDepositTimestamp"] = approximate_deposit_timestamp
 
         return field_dict
 
@@ -59,12 +68,20 @@ class BackedDeposit:
 
         deposit_in_copper = d.pop("depositInCopper", UNSET)
 
+        _approximate_deposit_timestamp = d.pop("approximateDepositTimestamp", UNSET)
+        approximate_deposit_timestamp: Union[Unset, datetime.datetime]
+        if isinstance(_approximate_deposit_timestamp, Unset):
+            approximate_deposit_timestamp = UNSET
+        else:
+            approximate_deposit_timestamp = isoparse(_approximate_deposit_timestamp)
+
         backed_deposit = cls(
             id=id,
             endorsements=endorsements,
             character_name=character_name,
             character_realm=character_realm,
             deposit_in_copper=deposit_in_copper,
+            approximate_deposit_timestamp=approximate_deposit_timestamp,
         )
 
         return backed_deposit
