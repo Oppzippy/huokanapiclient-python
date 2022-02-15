@@ -1,11 +1,11 @@
 """ Contains all the data models used in inputs/outputs """
 
 from .authorization import Authorization
-from .backed_deposit import BackedDeposit
 from .deposit import Deposit
 from .deposit_collection import DepositCollection
 from .deposit_log import DepositLog
 from .deposit_log_entry import DepositLogEntry
+from .direction import Direction
 from .global_permission import GlobalPermission
 from .global_permission_collection import GlobalPermissionCollection
 from .guild import Guild

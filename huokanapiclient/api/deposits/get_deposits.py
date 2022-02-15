@@ -4,6 +4,7 @@ import httpx
 
 from ...client import Client
 from ...models.deposit_collection import DepositCollection
+from ...models.direction import Direction
 from ...types import UNSET, Response, Unset
 
 
@@ -12,7 +13,8 @@ def _get_kwargs(
     guild_id: str,
     *,
     client: Client,
-    after: Union[Unset, None, str] = UNSET,
+    direction: Direction,
+    relative_to: Union[Unset, None, str] = UNSET,
     limit: Union[Unset, None, int] = 50,
 ) -> Dict[str, Any]:
     url = "{}/organizations/{organizationId}/guilds/{guildId}/deposits".format(
@@ -23,7 +25,11 @@ def _get_kwargs(
     cookies: Dict[str, Any] = client.get_cookies()
 
     params: Dict[str, Any] = {}
-    params["after"] = after
+    json_direction = direction.value
+
+    params["direction"] = json_direction
+
+    params["relativeTo"] = relative_to
 
     params["limit"] = limit
 
@@ -61,14 +67,16 @@ def sync_detailed(
     guild_id: str,
     *,
     client: Client,
-    after: Union[Unset, None, str] = UNSET,
+    direction: Direction,
+    relative_to: Union[Unset, None, str] = UNSET,
     limit: Union[Unset, None, int] = 50,
 ) -> Response[DepositCollection]:
     """
     Args:
         organization_id (str):
         guild_id (str):
-        after (Union[Unset, None, str]):
+        direction (Direction):
+        relative_to (Union[Unset, None, str]):
         limit (Union[Unset, None, int]):  Default: 50.
 
     Returns:
@@ -79,7 +87,8 @@ def sync_detailed(
         organization_id=organization_id,
         guild_id=guild_id,
         client=client,
-        after=after,
+        direction=direction,
+        relative_to=relative_to,
         limit=limit,
     )
 
@@ -96,14 +105,16 @@ def sync(
     guild_id: str,
     *,
     client: Client,
-    after: Union[Unset, None, str] = UNSET,
+    direction: Direction,
+    relative_to: Union[Unset, None, str] = UNSET,
     limit: Union[Unset, None, int] = 50,
 ) -> Optional[DepositCollection]:
     """
     Args:
         organization_id (str):
         guild_id (str):
-        after (Union[Unset, None, str]):
+        direction (Direction):
+        relative_to (Union[Unset, None, str]):
         limit (Union[Unset, None, int]):  Default: 50.
 
     Returns:
@@ -114,7 +125,8 @@ def sync(
         organization_id=organization_id,
         guild_id=guild_id,
         client=client,
-        after=after,
+        direction=direction,
+        relative_to=relative_to,
         limit=limit,
     ).parsed
 
@@ -124,14 +136,16 @@ async def asyncio_detailed(
     guild_id: str,
     *,
     client: Client,
-    after: Union[Unset, None, str] = UNSET,
+    direction: Direction,
+    relative_to: Union[Unset, None, str] = UNSET,
     limit: Union[Unset, None, int] = 50,
 ) -> Response[DepositCollection]:
     """
     Args:
         organization_id (str):
         guild_id (str):
-        after (Union[Unset, None, str]):
+        direction (Direction):
+        relative_to (Union[Unset, None, str]):
         limit (Union[Unset, None, int]):  Default: 50.
 
     Returns:
@@ -142,7 +156,8 @@ async def asyncio_detailed(
         organization_id=organization_id,
         guild_id=guild_id,
         client=client,
-        after=after,
+        direction=direction,
+        relative_to=relative_to,
         limit=limit,
     )
 
@@ -157,14 +172,16 @@ async def asyncio(
     guild_id: str,
     *,
     client: Client,
-    after: Union[Unset, None, str] = UNSET,
+    direction: Direction,
+    relative_to: Union[Unset, None, str] = UNSET,
     limit: Union[Unset, None, int] = 50,
 ) -> Optional[DepositCollection]:
     """
     Args:
         organization_id (str):
         guild_id (str):
-        after (Union[Unset, None, str]):
+        direction (Direction):
+        relative_to (Union[Unset, None, str]):
         limit (Union[Unset, None, int]):  Default: 50.
 
     Returns:
@@ -176,7 +193,8 @@ async def asyncio(
             organization_id=organization_id,
             guild_id=guild_id,
             client=client,
-            after=after,
+            direction=direction,
+            relative_to=relative_to,
             limit=limit,
         )
     ).parsed
